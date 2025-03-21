@@ -31,11 +31,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  speech_to_text: ^5.6.1
+  speech_to_text: ^7.0.0
   flutter_tts: ^3.7.0
   http: ^1.1.0
   flutter_dotenv: ^5.1.0
   cupertino_icons: ^1.0.2
+permission_handler: ^10.2.0  # 추가
+
 
 
 dev_dependencies:

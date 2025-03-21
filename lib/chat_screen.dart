@@ -31,6 +31,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
 
+
   @override
   void initState() {
     super.initState();
@@ -66,14 +67,19 @@ class _ChatScreenState extends State<ChatScreen> {
 // 음성 인식 초기화
   Future<void> _initSpeech() async {
     debugPrint("음성 인식 초기화 시작");
+
+
     try {
-      final result = await _speechToText.initialize();
+      final result = await _speechToText.initialize(
+        onStatus: (status) => debugPrint("음성 인식 상태야: $status"),
+        onError: (error) => debugPrint("음성 인식 오류야: $error"),
+      );
       debugPrint("음성 인식 초기화 결과: $result");
 
       if (result) {
         // 사용 가능한 로케일 확인
         final locales = await _speechToText.locales();
-        debugPrint("사용 가능한 언어: $locales");
+        //debugPrint("사용 가능한 언어: ${locales.map((e) => e.localeId).toList()}");
 
         // 한국어 로케일 확인
         final koLocale = locales.where((locale) =>
@@ -100,15 +106,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
 
-
-
-
-
-
-
-
-
-
 // TTS 초기화
   Future<void> _initTts() async {
     await _flutterTts.setLanguage("ko-KR");
@@ -123,10 +120,16 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
 // 음성 인식 시작
+
   void _startListening() async {
+    debugPrint("음성 인식 시작 oooooo");
+
     if (!_speechEnabled) {
       await _initSpeech();
+      debugPrint("음성 인식 시작");
     }
+
+    debugPrint("음성 인식 못함 oooooo");
 
     setState(() {
       _isListening = true;
@@ -140,6 +143,13 @@ class _ChatScreenState extends State<ChatScreen> {
       pauseFor: const Duration(seconds: 3),
     );
   }
+
+
+
+
+
+
+
 
 // 음성 인식 중지
   void _stopListening() async {
